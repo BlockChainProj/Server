@@ -1,0 +1,204 @@
+---
+swagger: "2.0"
+info:
+  description: "BlockChain Project"
+  version: "1.0.0"
+  title: "BlockChain Project"
+tags:
+- name: "Bill"
+  description: "Everything about Bills"
+- name: "Transaction"
+  description: "Operations about Transacation"
+schemes:
+- "https"
+- "http"
+paths:
+  /bills:
+    get:
+      tags:
+      - "Bill"
+      summary: "Get the list of Bills of the current account"
+      description: ""
+      operationId: "bills_get"
+      parameters:
+      - name: "accountAddress"
+        in: "query"
+        description: "the corresponding account's address"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: "#/definitions/BillList"
+      x-swagger-router-controller: "swagger_server.controllers.bill_controller"
+  /issue:
+    post:
+      tags:
+      - "Transaction"
+      summary: "Issue a transaction"
+      description: ""
+      operationId: "issue_post"
+      parameters:
+      - in: "body"
+        name: "issueBill"
+        required: false
+        schema:
+          $ref: "#/definitions/IssueBill"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: "#/definitions/State"
+      x-swagger-router-controller: "swagger_server.controllers.transaction_controller"
+  /transfer:
+    post:
+      tags:
+      - "Transaction"
+      summary: "Transfer a bill"
+      description: ""
+      operationId: "transfer_post"
+      parameters:
+      - in: "body"
+        name: "transferBill"
+        required: false
+        schema:
+          $ref: "#/definitions/TransferBill"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: "#/definitions/State"
+      x-swagger-router-controller: "swagger_server.controllers.transaction_controller"
+  /finace:
+    post:
+      tags:
+      - "Transaction"
+      summary: "Finace a bill"
+      description: ""
+      operationId: "finace_post"
+      parameters:
+      - in: "body"
+        name: "finaceBill"
+        required: false
+        schema:
+          $ref: "#/definitions/FinaceBill"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: "#/definitions/State"
+      x-swagger-router-controller: "swagger_server.controllers.transaction_controller"
+  /settle:
+    post:
+      tags:
+      - "Transaction"
+      summary: "settle a bill"
+      description: ""
+      operationId: "settle_post"
+      parameters:
+      - in: "body"
+        name: "settleBill"
+        required: false
+        schema:
+          $ref: "#/definitions/SettleBill"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: "#/definitions/State"
+      x-swagger-router-controller: "swagger_server.controllers.transaction_controller"
+definitions:
+  State:
+    type: "boolean"
+  Bill:
+    type: "object"
+    properties:
+      borrowerKey:
+        type: "string"
+      LenderKey:
+        type: "string"
+      money:
+        type: "integer"
+        format: "int32"
+      info:
+        type: "string"
+      date:
+        type: "string"
+        format: "date"
+      isFinaced:
+        type: "boolean"
+      isConfirmed:
+        type: "boolean"
+    example:
+      borrowerKey: "0xaE8A42872891F7C03D2FFb5b23cA909AE254F38e"
+      LenderKey: "0xaE8A42872891F7C03D2FFb5b23cA909AE254F38e"
+      money: 100000
+      info: "Buy 100 tyres"
+      date: "31231248129421849192"
+      isFinaced: false
+      isConfirmed: false
+  BillList:
+    type: "array"
+    items:
+      $ref: "#/definitions/Bill"
+  IssueBill:
+    type: "object"
+    properties:
+      lenderKey:
+        type: "string"
+      money:
+        type: "integer"
+        format: "int32"
+      info:
+        type: "string"
+      isConfirmed:
+        type: "boolean"
+    example:
+      LenderKey: "0xc6131ba4b85d942b7adba2be6bcbefb8b95f14fe"
+      money: 100000
+      isConfirmed: false
+      info: "Buy 100 tyres"
+  TransferBill:
+    type: "object"
+    properties:
+      borrowerKey:
+        type: "string"
+      newLenderKey:
+        type: "string"
+      money:
+        type: "integer"
+        format: "int32"
+      info:
+        type: "string"
+      isConfirmed:
+        type: "boolean"
+    example:
+      borrowerKey: "0391FA89B212C213"
+      newLenderKey: "0391FA89B212C213"
+      money: 100000
+      info: "Buy 100 tyres"
+      isConfirmed: false
+  FinaceBill:
+    type: "object"
+    properties:
+      money:
+        type: "string"
+      billIndex:
+        type: "integer"
+        format: "int32"
+    example:
+      money: 100000
+      billIndex: 5
+  SettleBill:
+    type: "object"
+    properties:
+      billIndex:
+        type: "integer"
+        format: "int32"
+      date:
+        type: "string"
+        format: "date"
+    example:
+      billIndex: 5
+      date: "2000-01-23"
