@@ -41,6 +41,7 @@ def bills_get(accountAddress):  # noqa: E501
     contract_address = "0xc0dcd5c4efe2c832781c9c0f8cb073cada16ef72" #合约地址
     contract_dir = "contracts" #合约目录
     contract_name = "Supply" #合约名字
+    
     accountAddress = "a599d3672309bd85c66aaa67a0ab5dfff4ba4d88"
     tx_client = transaction_common.TransactionCommon(
                 contract_address, contract_dir, contract_name)
