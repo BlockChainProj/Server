@@ -1,6 +1,7 @@
 import connexion
 import six
-
+import json
+import flask
 from swagger_server.models.finace_bill import FinaceBill  # noqa: E501
 from swagger_server.models.issue_bill import IssueBill  # noqa: E501
 from swagger_server.models.settle_bill import SettleBill  # noqa: E501
@@ -63,8 +64,10 @@ def finace_post(finaceBill=None):  # noqa: E501
 
     :rtype: State
     """
+    print('helloWorld')
     if connexion.request.is_json:
         try:
+            
             finaceBill = FinaceBill.from_dict(connexion.request.get_json())  # noqa: E501
             tx_client = transaction_common.TransactionCommon(
                     contract_address, contract_dir, contract_name)
@@ -120,6 +123,7 @@ def settle_post(settleBill=None):  # noqa: E501
 
     :rtype: State
     """
+    print('helloWorld')
     if connexion.request.is_json:
         try:
             settleBill = SettleBill.from_dict(connexion.request.get_json())  # noqa: E501
@@ -132,9 +136,19 @@ def settle_post(settleBill=None):  # noqa: E501
             # 解析receipt里的log 和 相关的tx ,output
             print_receipt_logs_and_txoutput(tx_client, receipt, "", data_parser)
         except:
+            # res = flask.make_response("false",404)
+            # res.headers['Access-Control-Allow-Origin'] = '*'
+            # res.headers['Access-Control-Allow-Methods'] = 'POST，GET,OPTIONS'
+            # res.headers['Access-Control-Allow-Headers'] = 'x-requested-with,content-type'
             return False
         else:
+            # res = flask.make_response("")
+            # res = flask.make_response(data)
+            # res.headers['Access-Control-Allow-Origin'] = '*'
+            # res.headers['Access-Control-Allow-Methods'] = 'POST，GET,OPTIONS'
+            # res.headers['Access-Control-Allow-Headers'] = 'x-requested-with,content-type'
             return True
+
     
 
 

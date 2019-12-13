@@ -38,6 +38,7 @@ def bills_get(accountAddress):  # noqa: E501
 
     :rtype: BillList
     """
+    print('helloWorld')
     contract_address = "0xc0dcd5c4efe2c832781c9c0f8cb073cada16ef72" #合约地址
     contract_dir = "contracts" #合约目录
     contract_name = "Supply" #合约名字
